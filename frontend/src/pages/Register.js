@@ -17,7 +17,7 @@ const Register = () => {
     e.preventDefault();
     setError(""); // Clear previous errors
     try {
-      const response = await axios.post("http://localhost:5000/register", {
+      const response = await axios.post("https://expense-tracker-wheat-six-61.vercel.app/register", {
         username,
         email,
         password,
