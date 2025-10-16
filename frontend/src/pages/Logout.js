@@ -9,7 +9,7 @@ const Logout = () => {
     const logoutUser = async () => {
       try {
         await axios.post(
-          "http://localhost:5000/logout",
+          "https://expense-tracker-wheat-six-61.vercel.app/logout",
           {},
           { withCredentials: true }
         );
