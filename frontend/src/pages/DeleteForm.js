@@ -21,7 +21,7 @@ const DeleteForm = ({ onSuccess }) => {
       return;
     }
     try {
-      await axios.delete("http://localhost:5000/delete-expense", {
+      await axios.delete("https://expense-tracker-wheat-six-61.vercel.app/delete-expense", {
         data: { email, ids: idsArray },
         headers: { "Content-Type": "application/json" },
       });
