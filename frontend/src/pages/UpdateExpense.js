@@ -20,7 +20,7 @@ const UpdateExpense = ({ onSuccess }) => {
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/dashboard?email=${email}`);
+        const res = await axios.get(`https://expense-tracker-wheat-six-61.vercel.app/dashboard?email=${email}`);
         setExpenses(res.data.expenses || []);
       } catch (err) {
         console.error("Error fetching expenses:", err);
@@ -63,7 +63,7 @@ const UpdateExpense = ({ onSuccess }) => {
       return;
     }
     try {
-      await axios.put("http://localhost:5000/update-expense", {
+      await axios.put("https://expense-tracker-wheat-six-61.vercel.app/update-expense", {
         email,
         user_expense_id: formData.user_expense_id,
         amount: formData.amount,
