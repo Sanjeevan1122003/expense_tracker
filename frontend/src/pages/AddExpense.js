@@ -22,7 +22,7 @@ const AddExpense = ({ onSuccess }) => {
     e.preventDefault();
     try {
       const dateToSend = formData.date || new Date().toISOString().split('T')[0];
-      await axios.post("http://localhost:5000/add-expense", {
+      await axios.post("https://expense-tracker-wheat-six-61.vercel.app/add-expense", {
         email,
         amount: formData.amount,
         type: formData.type,
