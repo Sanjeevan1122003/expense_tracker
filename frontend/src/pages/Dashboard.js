@@ -42,7 +42,7 @@ const Dashboard = () => {
   const fetchUserData = useCallback(async (filters = {}) => {
     try {
       const queryParams = new URLSearchParams({ email, ...filters });
-      const res = await axios.get(`http://localhost:5000/dashboard?${queryParams}`);
+      const res = await axios.get(`https://expense-tracker-wheat-six-61.vercel.app/dashboard?${queryParams}`);
       setUserData(res.data);
       setExpenses(res.data.expenses || []);
       setFilteredExpenses(res.data.expenses || []);
