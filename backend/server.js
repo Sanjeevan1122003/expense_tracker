@@ -3,12 +3,37 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 const { Pool } = require("pg");
 
 dotenv.config();
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "https://expensetracker.sanjeevantech.com",
+  credentials: true
+}));
+
+app.use(cookieParser());
+
+
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1]; // for Bearer token
+
+    // OR if using cookies
+    const cookieToken = req.cookies?.jwt_token;
+    const finalToken = token || cookieToken;
+
+    if (!finalToken) return res.status(401).json({ message: "Access denied. No token provided." });
+
+    jwt.verify(finalToken, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.status(403).json({ message: "Invalid or expired token." });
+        req.user = user; // attach user details to request
+        next();
+    });
+}
+
 
 // Create PostgreSQL pool for Supabase
 const pool = new Pool({
@@ -182,6 +207,9 @@ app.get("/get-pdf", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+app.use(["/dashboard", "/add-expense", "/update-expense", "/delete-expense", "/get-pdf"], authenticateToken);
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
