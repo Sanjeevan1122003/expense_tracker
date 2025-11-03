@@ -35,22 +35,6 @@ app.post("/register", async (req, res) => {
     }
 });
 
-// Middleware to verify JWT
-const verifyToken = (req, res, next) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ message: "Access denied. No token provided." });
-    }
-    const token = authHeader.substring(7);
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-        next();
-    } catch (err) {
-        res.status(401).json({ message: "Invalid token." });
-    }
-};
-
 // API login
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
@@ -65,10 +49,6 @@ app.post("/login", async (req, res) => {
         if (!isMatch) return res.status(401).json({ message: "Invalid email or password" });
 
         const jwt_token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_SECRET);
-
-        // Store JWT in database
-        await pool.query("UPDATE users_autho SET user_auth0_token = $1 WHERE email = $2", [jwt_token, email]);
-
         res.status(200).json({ message: "Login successful", jwt_token });
     } catch (err) {
         console.error("❌ Login Error:", err);
@@ -77,7 +57,7 @@ app.post("/login", async (req, res) => {
 });
 
 // API dashboard
-app.get("/dashboard", verifyToken, async (req, res) => {
+app.get("/dashboard", async (req, res) => {
     const { email, filterType, startDate, endDate, days, months } = req.query;
     if (!email) return res.status(400).json({ message: "Email is required" });
 
@@ -124,7 +104,7 @@ app.get("/dashboard", verifyToken, async (req, res) => {
 });
 
 // API add expense
-app.post("/add-expense", verifyToken, async (req, res) => {
+app.post("/add-expense", async (req, res) => {
     const { email, amount, type, category, date } = req.body;
     if (!email || !amount || !type || !category || !date)
         return res.status(400).json({ message: "Missing required fields" });
@@ -147,7 +127,7 @@ app.post("/add-expense", verifyToken, async (req, res) => {
 });
 
 // API update expense
-app.put("/update-expense", verifyToken, async (req, res) => {
+app.put("/update-expense", async (req, res) => {
     const { email, user_expense_id, amount, type, category, date } = req.body;
     if (!email || !user_expense_id || !amount || !type || !category || !date)
         return res.status(400).json({ message: "Missing required fields" });
@@ -168,7 +148,7 @@ app.put("/update-expense", verifyToken, async (req, res) => {
 });
 
 // API delete expense
-app.delete("/delete-expense", verifyToken, async (req, res) => {
+app.delete("/delete-expense", async (req, res) => {
     const { email, ids } = req.body;
     if (!email || !ids || !Array.isArray(ids) || ids.length === 0)
         return res.status(400).json({ message: "Invalid input" });
@@ -188,7 +168,7 @@ app.delete("/delete-expense", verifyToken, async (req, res) => {
 });
 
 // API get PDF data
-app.get("/get-pdf", verifyToken, async (req, res) => {
+app.get("/get-pdf", async (req, res) => {
     const { email } = req.query;
     if (!email) return res.status(400).json({ error: "Email is required" });
 
