@@ -48,7 +48,7 @@ app.post("/login", async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(401).json({ message: "Invalid email or password" });
 
-        const jwt_token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_SECRET);
+        const jwt_token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: "90d" });
         res.status(200).json({ message: "Login successful", jwt_token });
     } catch (err) {
         console.error("❌ Login Error:", err);
