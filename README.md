@@ -19,7 +19,7 @@ A full-stack expense management application with authentication, expense trackin
 
 ### 1. Clone the Repository
 ```sh
-git clone https://github.com/Sanjeevan1122003/expense-tracker-demo.git
+git clone https://github.com/Sanjeevan1122003/expense_tracker.git
 cd expense-tracker-demo
 ```
 
