@@ -91,7 +91,7 @@ app.get("/dashboard", async (req, res) => {
         if (userResult.rows.length === 0) return res.status(404).json({ message: "User not found" });
         const username = userResult.rows[0].username;
 
-        let query = "SELECT * FROM expense_data WHERE email = $1";
+        let query = "SELECT * FROM expense_data WHERE email = $1 ORDER BY user_expense_id ASC";
         const params = [email];
         let paramIndex = 2;
 
