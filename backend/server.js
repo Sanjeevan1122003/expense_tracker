@@ -173,19 +173,57 @@ app.put("/update-expense", async (req, res) => {
 });
 
 // API delete expense
+// app.delete("/delete-expense", async (req, res) => {
+//     const { email, ids } = req.body;
+//     if (!email || !ids || !Array.isArray(ids) || ids.length === 0)
+//         return res.status(400).json({ message: "Invalid input" });
+
+//     try {
+//         const placeholders = ids.map((_, i) => `$${i + 2}`).join(",");
+//         const query = `DELETE FROM expense_data WHERE email=$1 AND user_expense_id IN (${placeholders})`;
+//         const result = await pool.query(query, [email, ...ids]);
+
+//         if (result.rowCount === 0) return res.status(404).json({ message: "No matching expenses found" });
+
+//         res.json({ message: `${result.rowCount} expenses deleted successfully` });
+//     } catch (err) {
+//         console.error("❌ Error deleting expense:", err);
+//         res.status(500).json({ message: "Database error", error: err.message });
+//     }
+// });
+
 app.delete("/delete-expense", async (req, res) => {
     const { email, ids } = req.body;
     if (!email || !ids || !Array.isArray(ids) || ids.length === 0)
         return res.status(400).json({ message: "Invalid input" });
 
     try {
+        // Delete the selected records
         const placeholders = ids.map((_, i) => `$${i + 2}`).join(",");
-        const query = `DELETE FROM expense_data WHERE email=$1 AND user_expense_id IN (${placeholders})`;
-        const result = await pool.query(query, [email, ...ids]);
+        const deleteQuery = `DELETE FROM expense_data WHERE email=$1 AND user_expense_id IN (${placeholders})`;
+        const result = await pool.query(deleteQuery, [email, ...ids]);
 
-        if (result.rowCount === 0) return res.status(404).json({ message: "No matching expenses found" });
+        if (result.rowCount === 0) {
+            return res.status(404).json({ message: "No matching expenses found" });
+        }
 
-        res.json({ message: `${result.rowCount} expenses deleted successfully` });
+        // ✅ Reorder user_expense_id for remaining records of that user
+        // Step 1: Select all remaining rows for the user, ordered by user_expense_id
+        const selectQuery = `SELECT id FROM expense_data WHERE email=$1 ORDER BY user_expense_id ASC`;
+        const remaining = await pool.query(selectQuery, [email]);
+
+        // Step 2: Loop and reassign new user_expense_id values (1, 2, 3, ...)
+        for (let i = 0; i < remaining.rows.length; i++) {
+            await pool.query(
+                `UPDATE expense_data SET user_expense_id=$1 WHERE id=$2`,
+                [i + 1, remaining.rows[i].id]
+            );
+        }
+
+        res.json({
+            message: `${result.rowCount} expenses deleted successfully`,
+            reordered: true
+        });
     } catch (err) {
         console.error("❌ Error deleting expense:", err);
         res.status(500).json({ message: "Database error", error: err.message });
