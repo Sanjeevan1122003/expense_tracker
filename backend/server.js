@@ -9,10 +9,12 @@ const { Pool } = require("pg");
 dotenv.config();
 const app = express();
 app.use(express.json());
-app.use(cors({
-  origin: "https://expensetracker.sanjeevantech.com",
-  credentials: true
-}));
+// app.use(cors({
+//   origin: "https://expensetracker.sanjeevantech.com",
+//   credentials: true
+// }));
+
+app.use(cors());
 
 app.use(cookieParser());
 
