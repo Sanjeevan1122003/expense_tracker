@@ -34,27 +34,32 @@ const UpdateExpense = ({ onSuccess }) => {
   };
 
   const handleSelectExpense = (e) => {
-    const selectedId = e.target.value;
-    if (selectedId) {
-      const selectedExpense = expenses.find(exp => exp.user_expense_id === selectedId);
-      if (selectedExpense) {
-        setFormData({
-          amount: selectedExpense.amount,
-          type: selectedExpense.type,
-          category: selectedExpense.category,
-          date: selectedExpense.date,
-          user_expense_id: selectedExpense.user_expense_id,
-        });
-      }
-    } else {
+  const selectedId = Number(e.target.value);
+
+  if (selectedId) {
+    const selectedExpense = expenses.find(
+      (exp) => exp.user_expense_id === selectedId
+    );
+
+    if (selectedExpense) {
       setFormData({
-        amount: "",
-        type: "Expense",
-        category: "",
-        user_expense_id: "",
+        amount: selectedExpense.amount,
+        type: selectedExpense.type,
+        category: selectedExpense.category,
+        date: selectedExpense.date,
+        user_expense_id: selectedExpense.user_expense_id,
       });
     }
-  };
+  } else {
+    setFormData({
+      amount: "",
+      type: "Expense",
+      category: "",
+      date: "",        
+      user_expense_id: "",
+    });
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
