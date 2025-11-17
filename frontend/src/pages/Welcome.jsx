@@ -1,12 +1,13 @@
 // src/pages/Welcome.jsx
 import { Navigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
+import Cookies from "js-cookie";
 import { ArrowRight, TrendingUp, PieChart, Wallet } from "lucide-react";
 
 const Welcome = () => {
-  const isLoggedIn = false;
 
-  if (isLoggedIn) {
+  const token = Cookies.get("jwt_token")
+  if(token !== null){
     return <Navigate to="/dashboard" />;
   }
 
