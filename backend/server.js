@@ -15,7 +15,7 @@ app.use(express.json());
 // === CORS: allow your frontend at http://localhost:3000 and allow credentials ===
 app.use(
     cors({
-        origin: "http://localhost:5173",
+        origin: "https://expensetracker.sanjeevantech.com/",
         credentials: true,
     })
 );
