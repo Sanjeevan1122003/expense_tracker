@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================= Your Design System (unchanged) ================= */
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --card-radius: 16px;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 195 100% 39%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 186 100% 94%;
+    --accent-foreground: 195 100% 39%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 195 100% 39%;
+    --radius: 0.75rem;
+    --gradient-primary: linear-gradient(135deg, hsl(195 100% 39%), hsl(186 100% 55%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    --shadow-soft: 0 2px 8px -2px hsl(222 47% 11% / 0.08);
+    --shadow-medium: 0 4px 16px -4px hsl(222 47% 11% / 0.12);
+    --shadow-large: 0 8px 32px -8px hsl(222 47% 11% / 0.16);
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5% 26%;
+    --sidebar-primary: 240 6% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 5% 96%;
+    --sidebar-accent-foreground: 240 6% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217 91% 60%;
+  }
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+    --card: 217 33% 17%;
+    --card-foreground: 210 40% 98%;
+    --popover: 217 33% 17%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 186 100% 55%;
+    --primary-foreground: 222 47% 11%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 20%;
+    --accent-foreground: 186 100% 55%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 186 100% 55%;
+    --gradient-primary: linear-gradient(135deg, hsl(186 100% 55%), hsl(195 100% 39%));
+    --gradient-card: linear-gradient(145deg, hsl(217 33% 17%), hsl(222 47% 11%));
+    --shadow-soft: 0 2px 8px -2px hsl(0 0% 0% / 0.3);
+    --shadow-medium: 0 4px 16px -4px hsl(0 0% 0% / 0.4);
+    --shadow-large: 0 8px 32px -8px hsl(0 0% 0% / 0.5);
+    --sidebar-background: 240 6% 10%;
+    --sidebar-foreground: 240 5% 96%;
+    --sidebar-primary: 224 76% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 4% 16%;
+    --sidebar-accent-foreground: 240 5% 96%;
+    --sidebar-border: 240 4% 16%;
+    --sidebar-ring: 217 91% 60%;
+  }
+}
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; }
+}
+
+/* ================= Helpers ================= */
+.scroll-smooth { scroll-behavior: smooth; }
+
+/* Sticky header + scrollable tbody */
+.table-scroll { width: 100%; }
+.table-scroll thead { position: sticky; top: 0; z-index: 10; background: hsl(var(--background)); }
+.table-scroll .tbody-scroll { display: block; max-height: 55vh; min-height: 260px; overflow-y: auto; overflow-x: hidden; }
+.table-scroll thead tr, .table-scroll tbody tr { display: table; table-layout: fixed; width: 100%; }
+
+/* Cards */
+.bg-gradient-card { background: linear-gradient(180deg, hsl(var(--card)) 0%, hsl(var(--card)) 100%); border-radius: var(--card-radius); }
+.shadow-soft { box-shadow: 0 4px 20px rgba(0,0,0,.06); }
+.shadow-large { box-shadow: 0 20px 40px rgba(0,0,0,.08); }
+.table-fixed { table-layout: fixed; }
+
+/* ================= Loaders ================= */
+.loader-spinner {
+  border: 2px solid hsl(var(--muted));
+  border-top-color: hsl(var(--primary));
+  border-radius: 9999px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Optional nicer scrollbars for tbody */
+.tbody-scroll::-webkit-scrollbar { width: 10px; }
+.tbody-scroll::-webkit-scrollbar-thumb { background: hsl(var(--muted)); border-radius: 8px; }
