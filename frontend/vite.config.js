@@ -14,7 +14,7 @@ export default defineConfig({
       includeAssets: ["Logo.png"],
       manifest: {
         name: "Expense Tracker",
-        short_name: "Expenses",
+        short_name: "Expenses Tracker",
         description: "Track your income & expenses easily.",
         theme_color: "#24c2ee",
         icons: [
