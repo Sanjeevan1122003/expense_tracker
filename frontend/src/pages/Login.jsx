@@ -42,15 +42,15 @@ const Login = () => {
       toast({
         title: "Login Successful",
         description: "Welcome back!",
+        className: "bg-green-600 text-white",
       });
 
       navigate("/dashboard");
     } catch (err) {
-      console.error("Login error:", err);
       toast({
         title: "Login Failed",
         description: err?.response?.data?.message || "Please check your credentials",
-        variant: "destructive",
+        className: "bg-red-600 text-white",
       });
     } finally {
       setIsLoading(false);
