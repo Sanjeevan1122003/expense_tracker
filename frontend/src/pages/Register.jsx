@@ -27,6 +27,7 @@ const Register = () => {
       toast({
         title: "Registration Successful",
         description: "Your account has been created!",
+        className: "bg-green-600 text-white",
       });
       navigate("/login");
     } catch (err) {
@@ -34,7 +35,7 @@ const Register = () => {
       toast({
         title: "Registration Failed",
         description: err?.response?.data?.message || "Please fill in all fields",
-        variant: "destructive",
+        className: "bg-red-600 text-white",
       });
     } finally {
       setIsLoading(false);
