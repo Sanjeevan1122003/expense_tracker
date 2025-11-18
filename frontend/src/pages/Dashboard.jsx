@@ -85,7 +85,7 @@ const Dashboard = () => {
       toast({
         title: "Error",
         description: "Failed to load dashboard data",
-        variant: "destructive",
+        className: "bg-red-600 text-white",
       });
 
       if ([401, 403].includes(err?.response?.status)) {
@@ -143,6 +143,7 @@ const Dashboard = () => {
     toast({
       title: "Logged out successfully",
       description: "See you soon!",
+      className: "bg-green-600 text-white",
     });
 
     navigate("/");
@@ -153,6 +154,7 @@ const Dashboard = () => {
   toast({
     title: "Exporting PDF",
     description: "Your expense report is being prepared...",
+    className: "bg-white-600",
   });
 
   try {
@@ -160,13 +162,14 @@ const Dashboard = () => {
     toast({
       title: "Downloaded",
       description: "Your PDF downloaded successfully",
+      className: "bg-green-600 text-white",
     });
   } catch (err) {
     console.error("PDF Error:", err);
     toast({
       title: "Error",
       description: "Failed to generate PDF",
-      variant: "destructive",
+      className: "bg-red-600 text-white",
     });
   }
 };
