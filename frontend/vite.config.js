@@ -1,22 +1,21 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
-import path from "path";
 
 export default defineConfig({
   plugins: [
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      devOptions: {
-        enabled: true, // Lets PWA work in dev mode too
-      },
-      includeAssets: ["Logo.png"],
+      includeAssets: ["Logo.png"], // file placed in public/
       manifest: {
         name: "Expense Tracker",
-        short_name: "Expenses Tracker",
+        short_name: "Expense Tracker",
         description: "Track your income & expenses easily.",
-        theme_color: "#24c2ee",
+        theme_color: "#ffffff",
+        background_color: "#ffffff",
+        display: "standalone",
+        start_url: "/",
         icons: [
           {
             src: "Logo.png",
@@ -30,13 +29,9 @@ export default defineConfig({
           },
         ],
       },
+      devOptions: {
+        enabled: true, // <--- IMPORTANT for local development
+      },
     }),
   ],
-
-  // IMPORTANT: Now @ works properly
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
 });
