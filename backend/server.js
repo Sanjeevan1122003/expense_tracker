@@ -15,6 +15,7 @@ app.use(express.json());
 // === CORS: allow your frontend at http://localhost:3000 and allow credentials ===
 app.use(
     cors({
+        // origin: "http://localhost:5173",
         origin: "https://expensetracker.sanjeevantech.com",
         credentials: true,
     })
@@ -177,7 +178,7 @@ app.get("/dashboard", async (req, res) => {
 
 // ========================== ADD EXPENSE ==========================
 app.post("/add-expense", async (req, res) => {
-    const { email, amount, type, category, date } = req.body;
+    const { email, amount, type, category, description, date, time, created_at } = req.body;
     if (!email || !amount || !type || !category || !date)
         return res.status(400).json({ message: "Missing required fields" });
 
@@ -189,8 +190,8 @@ app.post("/add-expense", async (req, res) => {
         const nextExpenseId = nextIdResult.rows[0].next_id;
 
         await pool.query(
-            "INSERT INTO expense_data (email, user_expense_id, amount, type, category, date) VALUES ($1, $2, $3, $4, $5, $6)",
-            [email, nextExpenseId, amount, type, category, date]
+            "INSERT INTO expense_data (email, user_expense_id, amount, type, category, description, date, time) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+            [email, nextExpenseId, amount, type, category, description, date, time, created_at]
         );
 
         res.json({ message: "Expense added successfully" });
@@ -202,14 +203,14 @@ app.post("/add-expense", async (req, res) => {
 
 // ========================== UPDATE EXPENSE ==========================
 app.put("/update-expense", async (req, res) => {
-    const { email, user_expense_id, amount, type, category, date } = req.body;
+    const { email, user_expense_id, amount, type, category, description, date } = req.body;
     if (!email || !user_expense_id || !amount || !type || !category || !date)
         return res.status(400).json({ message: "Missing required fields" });
 
     try {
         const result = await pool.query(
-            "UPDATE expense_data SET amount=$1, type=$2, category=$3, date=$4 WHERE email=$5 AND user_expense_id=$6",
-            [amount, type, category, date, email, user_expense_id]
+            "UPDATE expense_data SET amount=$1, type=$2, category=$3, description=$4, date=$5 WHERE email=$6 AND user_expense_id=$7",
+            [amount, type, category, description || "", date, email, user_expense_id]
         );
 
         if (result.rowCount === 0)
