@@ -191,7 +191,7 @@ app.post("/add-expense", async (req, res) => {
 
         await pool.query(
             "INSERT INTO expense_data (email, user_expense_id, amount, type, category, description, date, time) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
-            [email, nextExpenseId, amount, type, category, description, date, time, created_at]
+            [email, nextExpenseId, amount, type, category, description, date, time]
         );
 
         res.json({ message: "Expense added successfully" });
