@@ -2,10 +2,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
-<<<<<<< HEAD
-=======
 import { Input } from "../components/ui/input";
->>>>>>> f8564ef (New updates)
 import { Wallet, LogOut, Plus, Pencil, Trash2, Download, BarChart3, Filter } from "lucide-react";
 import {
   Select,
@@ -36,10 +33,7 @@ const Dashboard = () => {
   // FILTER STATES
   const [period, setPeriod] = useState("all");
   const [range, setRange] = useState({ start: "", end: "" });
-<<<<<<< HEAD
-=======
   const [appliedRange, setAppliedRange] = useState({ start: "", end: "" });
->>>>>>> f8564ef (New updates)
 
   const email = Cookies.get("user_email");
 
@@ -59,12 +53,6 @@ const Dashboard = () => {
       if (period === "all") {
         params.filterType = "all";
 
-<<<<<<< HEAD
-      } else if (period === "custom" && range.start && range.end) {
-        params.filterType = "dateRange";
-        params.startDate = range.start;
-        params.endDate = range.end;
-=======
       } else if (period === "custom" && appliedRange.start && appliedRange.end) {
         if (appliedRange.start > appliedRange.end) {
           toast({
@@ -77,7 +65,6 @@ const Dashboard = () => {
         params.filterType = "dateRange";
         params.startDate = appliedRange.start;
         params.endDate = appliedRange.end;
->>>>>>> f8564ef (New updates)
 
       } else {
         const periodMap = {
@@ -120,9 +107,6 @@ const Dashboard = () => {
       setIsLoading(false);
     }
   };
-
-<<<<<<< HEAD
-=======
   const handlePeriodChange = (value) => {
     setPeriod(value);
     if (value !== "custom") {
@@ -143,24 +127,17 @@ const Dashboard = () => {
     }
     setAppliedRange({ start: range.start, end: range.end });
   };
-
->>>>>>> f8564ef (New updates)
   useEffect(() => {
     if (!email) {
       clearAuth();
       navigate("/login");
       return;
     }
-<<<<<<< HEAD
-    loadExpenses();
-  }, [email, period, range.start, range.end]);
-=======
     if (period === "custom") {
       if (!appliedRange.start || !appliedRange.end) return;
     }
     loadExpenses();
   }, [email, period, appliedRange.start, appliedRange.end]);
->>>>>>> f8564ef (New updates)
 
   // 💰 Totals
   const totalIncome = expenses
@@ -176,13 +153,8 @@ const Dashboard = () => {
   // Label for UI (optional if you want later)
   const periodLabel = (() => {
     if (period === "all") return "All time";
-<<<<<<< HEAD
-    if (period === "custom" && range.start && range.end)
-      return `From ${range.start} to ${range.end}`;
-=======
     if (period === "custom" && appliedRange.start && appliedRange.end)
       return `From ${appliedRange.start} to ${appliedRange.end}`;
->>>>>>> f8564ef (New updates)
     const labels = {
       "1m": "Last 1 month",
       "3m": "Last 3 months",
@@ -275,11 +247,7 @@ const Dashboard = () => {
             <div className="flex flex-wrap items-center gap-2">
 
               {/* PERIOD SELECT */}
-<<<<<<< HEAD
-              <Select value={period} onValueChange={setPeriod}>
-=======
               <Select value={period} onValueChange={handlePeriodChange}>
->>>>>>> f8564ef (New updates)
                 <SelectTrigger className="w-[170px]">
                   <SelectValue placeholder="Select period" />
                 </SelectTrigger>
@@ -290,11 +258,7 @@ const Dashboard = () => {
                   <SelectItem value="6m">Last 6 months</SelectItem>
                   <SelectItem value="1y">Last 1 year</SelectItem>
                   <SelectItem value="3y">Last 3 years</SelectItem>
-<<<<<<< HEAD
-                  <SelectItem value="custom">Custom range</SelectItem>
-=======
                   <SelectItem value="custom">Custom</SelectItem>
->>>>>>> f8564ef (New updates)
                 </SelectContent>
               </Select>
 
@@ -303,10 +267,7 @@ const Dashboard = () => {
                 <>
                   <Input
                     type="date"
-<<<<<<< HEAD
-=======
                     max={range.end || undefined}
->>>>>>> f8564ef (New updates)
                     value={range.start}
                     onChange={(e) =>
                       setRange((prev) => ({ ...prev, start: e.target.value }))
@@ -316,10 +277,7 @@ const Dashboard = () => {
 
                   <Input
                     type="date"
-<<<<<<< HEAD
-=======
                     min={range.start || undefined}
->>>>>>> f8564ef (New updates)
                     value={range.end}
                     onChange={(e) =>
                       setRange((prev) => ({ ...prev, end: e.target.value }))
@@ -329,11 +287,7 @@ const Dashboard = () => {
 
                   <Button
                     size="sm"
-<<<<<<< HEAD
-                    onClick={loadExpenses}
-=======
                     onClick={handleApplyRange}
->>>>>>> f8564ef (New updates)
                     disabled={!range.start || !range.end}
                     className="bg-primary hover:opacity-90"
                   >
@@ -399,11 +353,7 @@ const Dashboard = () => {
           <Button
             size="sm"
             variant="outline"
-<<<<<<< HEAD
-            className="ml-auto"
-=======
             className="ml-auto hidden sm:inline-flex"
->>>>>>> f8564ef (New updates)
             onClick={() => setShowCharts(!showCharts)}
           >
             <BarChart3 className="w-4 h-4 mr-2" />
@@ -413,11 +363,7 @@ const Dashboard = () => {
 
         {/* CHARTS */}
         {showCharts && (
-<<<<<<< HEAD
-          <Card className="p-6 shadow-soft border-border/50 bg-gradient-card">
-=======
           <Card className="hidden sm:block p-6 shadow-soft border-border/50 bg-gradient-card">
->>>>>>> f8564ef (New updates)
             <ExpenseCharts expenses={expenses} isLoading={isLoading} />
           </Card>
         )}

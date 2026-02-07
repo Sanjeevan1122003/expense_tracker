@@ -1,13 +1,5 @@
 // src/lib/api.js
 import axios from "axios";
-<<<<<<< HEAD
-
-const api = axios.create({
-    baseURL: "https://expense-tracker-zeta-woad.vercel.app/",
-    withCredentials: true, // send/receive cookies
-});
-
-=======
 import { toast } from "../components/ui/use-toast";
 
 const api = axios.create({
@@ -29,6 +21,4 @@ api.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
->>>>>>> f8564ef (New updates)
 export default api;

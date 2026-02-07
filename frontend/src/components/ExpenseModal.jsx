@@ -8,10 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { useToast } from "../hooks/use-toast";
 import api from "../lib/api";
 import Cookies from "js-cookie";
-<<<<<<< HEAD
-=======
 import { expenseCategories, incomeCategories } from "../lib/categories";
->>>>>>> f8564ef (New updates)
 
 const ExpenseModal = ({ type, isOpen, onClose, expenses, onSuccess }) => {
   const { toast } = useToast();
@@ -21,10 +18,7 @@ const ExpenseModal = ({ type, isOpen, onClose, expenses, onSuccess }) => {
     amount: "",
     type: "Expense",
     category: "",
-<<<<<<< HEAD
-=======
     description: "",
->>>>>>> f8564ef (New updates)
     date: new Date().toISOString().split("T")[0],
   });
   const [deleteIds, setDeleteIds] = useState("");
@@ -38,10 +32,7 @@ const ExpenseModal = ({ type, isOpen, onClose, expenses, onSuccess }) => {
           amount: expense.amount.toString(),
           type: expense.type,
           category: expense.category,
-<<<<<<< HEAD
-=======
           description: expense.description || "",
->>>>>>> f8564ef (New updates)
           date: expense.date,
         });
       }
@@ -54,11 +45,6 @@ const ExpenseModal = ({ type, isOpen, onClose, expenses, onSuccess }) => {
       amount: "",
       type: "Expense",
       category: "",
-<<<<<<< HEAD
-      date: new Date().toISOString().split("T")[0],
-    });
-  };
-=======
       description: "",
       date: new Date().toISOString().split("T")[0],
     });
@@ -83,7 +69,6 @@ const ExpenseModal = ({ type, isOpen, onClose, expenses, onSuccess }) => {
       second: "2-digit",
       hour12: false,
     });
->>>>>>> f8564ef (New updates)
 
   const refreshAndReturn = async () => {
     const email = Cookies.get("user_email");
@@ -104,26 +89,19 @@ const ExpenseModal = ({ type, isOpen, onClose, expenses, onSuccess }) => {
 
     setIsLoading(true);
     try {
-<<<<<<< HEAD
-=======
       const now = new Date();
       const localTime = getLocalTime(now);
       const localCreatedAt = getLocalTimestamp(now);
->>>>>>> f8564ef (New updates)
       const email = Cookies.get("user_email");
       await api.post("/add-expense", {
         email,
         amount: Number(formData.amount),
         type: formData.type,
         category: formData.category,
-<<<<<<< HEAD
-        date: formData.date,
-=======
         description: formData.description,
         date: formData.date,
         time: localTime,
         created_at: localCreatedAt,
->>>>>>> f8564ef (New updates)
       });
 
       await refreshAndReturn();
@@ -165,10 +143,7 @@ const ExpenseModal = ({ type, isOpen, onClose, expenses, onSuccess }) => {
         amount: Number(formData.amount),
         type: formData.type,
         category: formData.category,
-<<<<<<< HEAD
-=======
         description: formData.description,
->>>>>>> f8564ef (New updates)
         date: formData.date,
       });
 
@@ -347,14 +322,6 @@ const ExpenseModal = ({ type, isOpen, onClose, expenses, onSuccess }) => {
 
               <div className="space-y-2">
                 <Label htmlFor="category">Category</Label>
-<<<<<<< HEAD
-                <Input
-                  id="category"
-                  placeholder="e.g., Food, Transport"
-                  value={formData.category}
-                  onChange={(e) =>
-                    setFormData({ ...formData, category: e.target.value })
-=======
                 <Select
                   value={formData.category}
                   onValueChange={(value) =>
@@ -382,7 +349,6 @@ const ExpenseModal = ({ type, isOpen, onClose, expenses, onSuccess }) => {
                   value={formData.description}
                   onChange={(e) =>
                     setFormData({ ...formData, description: e.target.value })
->>>>>>> f8564ef (New updates)
                   }
                 />
               </div>

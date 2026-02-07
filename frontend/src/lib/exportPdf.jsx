@@ -17,8 +17,6 @@ const fmtDate = (dateStr) => {
     });
 };
 
-<<<<<<< HEAD
-=======
 const fmtTime = (timeStr) => {
     if (!timeStr) return "";
     const d = new Date(`1970-01-01T${timeStr}`);
@@ -29,8 +27,6 @@ const fmtTime = (timeStr) => {
         hour12: true,
     });
 };
-
->>>>>>> f8564ef (New updates)
 const pad2 = (n) => String(n).padStart(2, "0");
 
 export default async function exportPdf({ email, period = "all", range = {} }) {
@@ -101,70 +97,34 @@ export default async function exportPdf({ email, period = "all", range = {} }) {
     // ===== TABLE =====
     autoTable(doc, {
         startY: margin + 140,
-        head: [
-<<<<<<< HEAD
-            ["ID", "Date", "Category", "Type", "Amount (₹)"],
-=======
-            ["ID", "Date", "Time", "Category", "Description", "Amount"],
->>>>>>> f8564ef (New updates)
-        ],
+        head: [["ID", "Date", "Time", "Category", "Description", "Amount"]],
         body: expenses.map((e) => [
             e.user_expense_id,
             fmtDate(e.date),
-<<<<<<< HEAD
-            e.category,
-            e.type,
-=======
             fmtTime(e.time),
             e.category,
             e.description || "",
->>>>>>> f8564ef (New updates)
             Number(e.amount).toFixed(2),
         ]),
         theme: "striped",
         headStyles: {
             fillColor: primary,
-<<<<<<< HEAD
-            textColor: "#fff",
-=======
             color: "#000000",
->>>>>>> f8564ef (New updates)
             fontStyle: "bold",
         },
         styles: {
             fontSize: 10,
-<<<<<<< HEAD
-            textColor: "#222",
-=======
             textColor: "#000000",
->>>>>>> f8564ef (New updates)
             cellPadding: 6,
         },
 
         // Color rows dynamically
         didParseCell: function (data) {
-<<<<<<< HEAD
-            const row = expenses[data.row.index];
-            if (!row) return;
-
-            // TYPE column
-            if (data.column.index === 3) {
-                data.cell.styles.textColor =
-                    row.type === "Income" ? incomeColor : expenseColor;
-            }
-
-            // AMOUNT column
-            if (data.column.index === 4) {
-                data.cell.styles.textColor =
-                    row.type === "Income" ? incomeColor : expenseColor;
-            }
-=======
             if (data.section !== "body") return;
             const row = expenses[data.row.index];
             if (!row) return;
             data.cell.styles.textColor =
                 row.type === "Income" ? incomeColor : expenseColor;
->>>>>>> f8564ef (New updates)
         },
     });
 

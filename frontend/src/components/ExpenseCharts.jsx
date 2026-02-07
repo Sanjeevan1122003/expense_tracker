@@ -1,16 +1,8 @@
 import { useMemo, useState } from "react";
 import {
-<<<<<<< HEAD
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  Legend,
-=======
   Tooltip,
   Legend,
   Cell,
->>>>>>> f8564ef (New updates)
   BarChart,
   Bar,
   XAxis,
@@ -40,18 +32,6 @@ const COLORS = [
 
 const ExpenseCharts = ({ expenses, isLoading = false, periodLabel }) => {
   const [typeFilter, setTypeFilter] = useState("All");
-<<<<<<< HEAD
-
-  // ✅ Filter by Income/Expense/All
-  const filtered = useMemo(() => {
-    return typeFilter === "All"
-      ? expenses
-      : expenses.filter((e) => e.type === typeFilter);
-  }, [expenses, typeFilter]);
-
-  // ✅ Group by category (Pie Chart)
-  const pieData = useMemo(() => {
-=======
   const [groupBy, setGroupBy] = useState("month");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
@@ -247,29 +227,10 @@ const ExpenseCharts = ({ expenses, isLoading = false, periodLabel }) => {
 
   // ✅ Group by category (Horizontal Bar)
   const categoryData = useMemo(() => {
->>>>>>> f8564ef (New updates)
     const map = new Map();
     filtered.forEach((e) => {
       map.set(e.category, (map.get(e.category) || 0) + Number(e.amount));
     });
-<<<<<<< HEAD
-    return Array.from(map, ([name, amount]) => ({ name, amount }));
-  }, [filtered]);
-
-  // ✅ Group by date & type (Bar + Line)
-  const seriesByDate = useMemo(() => {
-    const map = new Map();
-    filtered.forEach((e) => {
-      const date = e.date;
-      const row = map.get(date) || { date, Income: 0, Expense: 0 };
-      row[e.type] += Number(e.amount);
-      map.set(date, row);
-    });
-    return Array.from(map.values()).sort((a, b) =>
-      a.date.localeCompare(b.date)
-    );
-  }, [filtered]);
-=======
     return Array.from(map, ([name, amount]) => ({ name, amount }))
       .sort((a, b) => b.amount - a.amount);
   }, [filtered]);
@@ -352,7 +313,6 @@ const ExpenseCharts = ({ expenses, isLoading = false, periodLabel }) => {
   }, [seriesByPeriodLineIndexed]);
 
   // Debug logs removed after verification
->>>>>>> f8564ef (New updates)
 
   // ✅ Loading state
   if (isLoading) {
@@ -373,16 +333,12 @@ const ExpenseCharts = ({ expenses, isLoading = false, periodLabel }) => {
     );
   }
 
-<<<<<<< HEAD
-=======
   const groupByLabelMap = {
     day: "Daily",
     week: "Weekly",
     month: "Monthly",
     year: "Yearly",
   };
-
->>>>>>> f8564ef (New updates)
   return (
     <div className="space-y-6">
       {/* Header + Filter */}
@@ -393,47 +349,6 @@ const ExpenseCharts = ({ expenses, isLoading = false, periodLabel }) => {
             <p className="text-xs text-muted-foreground mt-1">{periodLabel}</p>
           )}
         </div>
-<<<<<<< HEAD
-        <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v)}>
-          <SelectTrigger className="w-[150px]">
-            <SelectValue placeholder="Filter Type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="All">All</SelectItem>
-            <SelectItem value="Income">Income</SelectItem>
-            <SelectItem value="Expense">Expense</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* ✅ Pie Chart */}
-      <div className="space-y-3">
-        <h3 className="text-lg font-semibold text-center">By Category</h3>
-        <div id="pie-chart">
-          <ResponsiveContainer width="100%" height={320}>
-            <PieChart>
-              <Pie
-                data={pieData}
-                dataKey="amount"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={110}
-                label={({ name, percent }) =>
-                  `${name}: ${(percent * 100).toFixed(0)}%`
-                }
-              >
-                {pieData.map((_, i) => (
-                  <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip
-                formatter={(v) => `₹${Number(v).toFixed(2)}`}
-                cursor={{ fill: "rgba(0,0,0,0.05)" }}
-              />
-              <Legend />
-            </PieChart>
-=======
         <div className="flex flex-wrap items-center justify-start gap-2">
           <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v)}>
             <SelectTrigger className="w-[150px]">
@@ -531,24 +446,9 @@ const ExpenseCharts = ({ expenses, isLoading = false, periodLabel }) => {
                 ))}
               </Bar>
             </BarChart>
->>>>>>> f8564ef (New updates)
           </ResponsiveContainer>
         </div>
       </div>
-
-<<<<<<< HEAD
-      {/* ✅ Bar Chart */}
-      <div className="space-y-3">
-        <h3 className="text-lg font-semibold text-center">
-          Daily Income vs Expense (Bar)
-        </h3>
-        <div id="bar-chart">
-          <ResponsiveContainer width="100%" height={320}>
-            <BarChart data={seriesByDate}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-=======
-      
 
       {/* ✅ Bar Chart */}
       <div className="space-y-3">
@@ -560,25 +460,16 @@ const ExpenseCharts = ({ expenses, isLoading = false, periodLabel }) => {
             <BarChart data={seriesByPeriod}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="label" />
->>>>>>> f8564ef (New updates)
               <YAxis />
               <Tooltip formatter={(v) => `₹${Number(v).toFixed(2)}`} />
               <Legend />
               <Bar
                 dataKey="Income"
-<<<<<<< HEAD
-                stackId="a"
-=======
->>>>>>> f8564ef (New updates)
                 fill="hsl(142 76% 36%)"
                 radius={[6, 6, 0, 0]}
               />
               <Bar
                 dataKey="Expense"
-<<<<<<< HEAD
-                stackId="a"
-=======
->>>>>>> f8564ef (New updates)
                 fill="hsl(0 84% 60%)"
                 radius={[6, 6, 0, 0]}
               />
@@ -589,16 +480,6 @@ const ExpenseCharts = ({ expenses, isLoading = false, periodLabel }) => {
 
       {/* ✅ Line Chart */}
       <div className="space-y-3">
-<<<<<<< HEAD
-        <h3 className="text-lg font-semibold text-center">Daily Trend (Line)</h3>
-        <div id="line-chart">
-          <ResponsiveContainer width="100%" height={320}>
-            <LineChart data={seriesByDate}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip formatter={(v) => `₹${Number(v).toFixed(2)}`} />
-=======
         <h3 className="text-lg font-semibold text-center">
           {groupByLabelMap[groupBy]} Trend (Line)
         </h3>
@@ -619,7 +500,6 @@ const ExpenseCharts = ({ expenses, isLoading = false, periodLabel }) => {
                 formatter={(v) => `₹${Number(v).toFixed(2)}`}
                 labelFormatter={(value) => lineIndexLabelMap.get(value) || ""}
               />
->>>>>>> f8564ef (New updates)
               <Legend />
               <Line
                 type="monotone"

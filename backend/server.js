@@ -131,12 +131,8 @@ app.get("/dashboard", async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         const username = userResult.rows[0].username;
 
-<<<<<<< HEAD
-        let query = "SELECT * FROM expense_data WHERE email = $1";
-=======
         let query =
             "SELECT id, email, user_expense_id, amount, type, category, description, TO_CHAR(date, 'DD-MM-YYYY') AS date, time, created_at FROM expense_data WHERE email = $1";
->>>>>>> f8564ef (New updates)
         const params = [email];
         let paramIndex = 2;
 
@@ -195,12 +191,8 @@ app.post("/add-expense", async (req, res) => {
         const nextExpenseId = nextIdResult.rows[0].next_id;
 
         await pool.query(
-            "INSERT INTO expense_data (email, user_expense_id, amount, type, category, description, date, time) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
-<<<<<<< HEAD
-            [email, nextExpenseId, amount, type, category, description, date, time]
-=======
+            "INSERT INTO expense_data (email, user_expense_id, amount, type, category, description, date, time, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
             [email, nextExpenseId, amount, type, category, description, date, time, created_at]
->>>>>>> f8564ef (New updates)
         );
 
         res.json({ message: "Expense added successfully" });

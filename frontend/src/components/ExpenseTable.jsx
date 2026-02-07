@@ -21,8 +21,6 @@ const ExpenseTable = ({ expenses, isLoading = false }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [sortConfig, setSortConfig] = useState(null);
-<<<<<<< HEAD
-=======
   const columns = useMemo(
     () => [
       { key: "user_expense_id", label: "ID", align: "left", widthClass: "w-16" },
@@ -35,7 +33,6 @@ const ExpenseTable = ({ expenses, isLoading = false }) => {
     ],
     []
   );
->>>>>>> f8564ef (New updates)
 
   // ✅ Handle sorting toggle
   const handleSort = (key) => {
@@ -46,10 +43,6 @@ const ExpenseTable = ({ expenses, isLoading = false }) => {
     });
   };
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f8564ef (New updates)
   // ✅ Apply filters, search, and sorting
   const filteredAndSorted = useMemo(() => {
     let result = [...expenses];
@@ -104,8 +97,6 @@ const ExpenseTable = ({ expenses, isLoading = false }) => {
     });
   };
 
-<<<<<<< HEAD
-=======
   const fmtTime = (timeStr) => {
     if (!timeStr) return "";
     const d = new Date(`1970-01-01T${timeStr}`);
@@ -116,8 +107,6 @@ const ExpenseTable = ({ expenses, isLoading = false }) => {
       hour12: true,
     });
   };
-
->>>>>>> f8564ef (New updates)
   // ✅ Loading skeleton
   if (isLoading) return <TableSkeleton />;
 
@@ -151,22 +140,6 @@ const ExpenseTable = ({ expenses, isLoading = false }) => {
 
       {/* 🧾 Table */}
       <div className="table-scroll">
-<<<<<<< HEAD
-        <Table className="table-fixed">
-          <TableHeader>
-            <TableRow className="hover:bg-transparent border-border">
-              {[
-                { key: "user_expense_id", label: "ID" },
-                { key: "date", label: "Date" },
-                { key: "category", label: "Category" },
-                { key: "type", label: "Type" },
-                { key: "amount", label: "Amount" },
-              ].map(({ key, label }) => (
-                <TableHead
-                  key={key}
-                  className={`font-semibold ${key === "amount" ? "text-right" : ""
-                    }`}
-=======
         <Table className="table-fixed w-full min-w-[860px]">
           <TableHeader>
             <TableRow className="hover:bg-transparent border-border">
@@ -175,18 +148,12 @@ const ExpenseTable = ({ expenses, isLoading = false }) => {
                   key={key}
                   className={`font-semibold bg-primary text-primary-foreground ${align === "right" ? "text-right" : "text-left"
                     } ${widthClass}`}
->>>>>>> f8564ef (New updates)
                 >
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => handleSort(key)}
-<<<<<<< HEAD
-                    className={`h-8 px-2 ${key === "amount" ? "ml-auto" : ""
-                      }`}
-=======
                     className={`h-8 px-2 ${align === "right" ? "ml-auto" : ""}`}
->>>>>>> f8564ef (New updates)
                   >
                     {label}
                     <ArrowUpDown className="ml-1 h-3 w-3" />
@@ -201,13 +168,8 @@ const ExpenseTable = ({ expenses, isLoading = false }) => {
             {filteredAndSorted.length === 0 ? (
               <tr className="table w-full">
                 <td
-<<<<<<< HEAD
-                  colSpan={5}
-                  className="text-center py-8 text-muted-foreground"
-=======
                   colSpan={columns.length}
                   className="text-center py-8 text-muted-foreground font-semibold"
->>>>>>> f8564ef (New updates)
                 >
                   No expenses found
                 </td>
@@ -216,28 +178,6 @@ const ExpenseTable = ({ expenses, isLoading = false }) => {
               filteredAndSorted.map((exp) => (
                 <tr
                   key={exp.id}
-<<<<<<< HEAD
-                  className="table w-full border-b border-border hover:bg-muted/30 transition-colors"
-                >
-                  <td className="w-[20%] px-4 py-3">{exp.user_expense_id}</td>
-                  <td className="w-[20%] px-4 py-3 text-muted-foreground">
-                    {fmt(exp.date)}
-                  </td>
-                  <td className="w-[20%] px-4 py-3">{exp.category}</td>
-                  <td className="w-[20%] px-4 py-3">
-                    <span
-                      className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-                      style={{
-                        backgroundColor:
-                          exp.type === "Income"
-                            ? "hsl(142 76% 90%)"
-                            : "hsl(0 84% 90%)",
-                        color:
-                          exp.type === "Income"
-                            ? "hsl(142 76% 36%)"
-                            : "hsl(0 84% 60%)",
-                      }}
-=======
                   className={`table w-full border-b border-border hover:bg-muted/30 transition-colors ${exp.type === "Income" ? "text-green-600" : "text-red-500"
                     }`}
                 >
@@ -257,7 +197,9 @@ const ExpenseTable = ({ expenses, isLoading = false }) => {
                           ? "text-green-700"
                           : "text-red-600"
                         }`}
-                    > {fmt(exp.date)}</span>
+                    >
+                      {fmt(exp.date)}
+                    </span>
                   </td>
                   <td className="px-4 py-3 text-muted-foreground font-semibold w-24 whitespace-nowrap">
                     <span
@@ -265,7 +207,9 @@ const ExpenseTable = ({ expenses, isLoading = false }) => {
                           ? "text-green-700"
                           : "text-red-600"
                         }`}
-                    > {fmtTime(exp.time)}</span>
+                    >
+                      {fmtTime(exp.time)}
+                    </span>
                   </td>
                   <td className="px-4 py-3 w-48 text-muted-foreground font-semibold truncate" title={exp.category}>
                     <span
@@ -273,7 +217,9 @@ const ExpenseTable = ({ expenses, isLoading = false }) => {
                           ? "text-green-700"
                           : "text-red-600"
                         }`}
-                    > {exp.category}</span>
+                    >
+                      {exp.category}
+                    </span>
                   </td>
                   <td className="px-4 py-3 w-64 text-muted-foreground font-semibold truncate" title={exp.description}>
                     <span
@@ -281,7 +227,9 @@ const ExpenseTable = ({ expenses, isLoading = false }) => {
                           ? "text-green-700"
                           : "text-red-600"
                         }`}
-                    > {exp.description}</span>
+                    >
+                      {exp.description}
+                    </span>
                   </td>
                   <td className="px-4 py-3 w-28">
                     <span
@@ -289,29 +237,13 @@ const ExpenseTable = ({ expenses, isLoading = false }) => {
                           ? "text-green-700"
                           : "text-red-600"
                         }`}
->>>>>>> f8564ef (New updates)
                     >
                       {exp.type}
                     </span>
                   </td>
-<<<<<<< HEAD
-                  <td className="w-[20%] px-4 py-3 text-right font-semibold">
-                    <span
-                      style={{
-                        color:
-                          exp.type === "Income"
-                            ? "hsl(142 76% 36%)"
-                            : "hsl(0 84% 60%)",
-                      }}
-                    >
-                      {exp.type === "Income" ? "" : "-"}₹
-                      {Number(exp.amount).toFixed(2)}
-                    </span>
-=======
                   <td className="px-4 py-3 text-right font-semibold w-28 whitespace-nowrap">
                     {exp.type === "Income" ? "" : "-"}₹
                     {Number(exp.amount).toFixed(2)}
->>>>>>> f8564ef (New updates)
                   </td>
                 </tr>
               ))
