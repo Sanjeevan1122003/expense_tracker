@@ -14,8 +14,7 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => {
-  const token = Cookies.get("jwt_token");
-
+  
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -26,8 +25,7 @@ const App = () => {
           <Routes>
             <Route
               path="/"
-              element={
-                token ? <Navigate to="/dashboard" replace /> : <Welcome />
+              element={<Welcome />
               }
             />
 
