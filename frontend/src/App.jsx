@@ -14,7 +14,7 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => {
-  const token = Cookies.get("user_email");
+  const token = Cookies.get("jwt_token");
 
   return (
     <QueryClientProvider client={queryClient}>
