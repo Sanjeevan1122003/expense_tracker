@@ -148,3 +148,30 @@ html, body { overflow-x: hidden; }
 /* Optional nicer scrollbars for tbody */
 .tbody-scroll::-webkit-scrollbar { width: 10px; }
 .tbody-scroll::-webkit-scrollbar-thumb { background: hsl(var(--muted)); border-radius: 8px; }
+
+/* ================= Landing Page Animations ================= */
+@keyframes landing-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes landing-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-20px); }
+}
+
+.landing-fade-up {
+  animation: landing-fade-up 0.7s ease-out both;
+}
+.landing-fade-up:nth-child(1) { animation-delay: 0s; }
+.landing-fade-up:nth-child(2) { animation-delay: 0.1s; }
+.landing-fade-up:nth-child(3) { animation-delay: 0.2s; }
+.landing-fade-up:nth-child(4) { animation-delay: 0.3s; }
+.landing-fade-up:nth-child(5) { animation-delay: 0.4s; }
+.landing-fade-up:nth-child(6) { animation-delay: 0.5s; }
+
+.landing-float {
+  animation: landing-float 6s ease-in-out infinite;
+}
+.landing-float-delayed {
+  animation: landing-float 6s ease-in-out 3s infinite;
+}

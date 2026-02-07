@@ -170,7 +170,8 @@ const Dashboard = () => {
     try {
       await api.post("/logout");
     } catch { }
-    Cookies.remove("user_email");
+    Cookies.remove("jwt_token",);
+    Cookies.remove("user_email")
 
     toast({
       title: "Logged out successfully",
