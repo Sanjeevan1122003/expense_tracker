@@ -84,10 +84,7 @@
     "@vitejs/plugin-react": "^5.1.1",
     "@vitejs/plugin-react-swc": "^3.11.0",
     "autoprefixer": "^10.4.21",
-<<<<<<< HEAD
-=======
     "baseline-browser-mapping": "^2.9.19",
->>>>>>> f8564ef (New updates)
     "eslint": "^9.32.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
