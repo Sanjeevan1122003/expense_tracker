@@ -87,14 +87,31 @@ const ExpenseTable = ({ expenses, isLoading = false }) => {
     return result;
   }, [expenses, searchTerm, filterType, sortConfig]);
 
-  // ✅ Format date
+  // ✅ Format date without timezone shifts
   const fmt = (dateStr) => {
-    const d = new Date(dateStr);
-    return d.toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
+    if (!dateStr) return "";
+    const str = String(dateStr);
+
+    // If already ISO (YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss...), keep date part
+    const iso = str.match(/^\d{4}-\d{2}-\d{2}/);
+    if (iso) {
+      const [yyyy, mm, dd] = iso[0].split("-");
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      return `${dd} ${months[Number(mm) - 1]} ${yyyy}`;
+    }
+
+    // If DD-MM-YYYY, convert to YYYY-MM-DD
+    const dmy = str.match(/^(\d{2})-(\d{2})-(\d{4})$/);
+    if (dmy) {
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      return `${dmy[1]} ${months[Number(dmy[2]) - 1]} ${dmy[3]}`;
+    }
+
+    // Fallback: parse and format as YYYY-MM-DD
+    const d = new Date(str);
+    if (Number.isNaN(d.getTime())) return str;
+    return d
+      .toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
   };
 
   const fmtTime = (timeStr) => {

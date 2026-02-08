@@ -6,8 +6,9 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { useToast } from "../hooks/use-toast";
-import api from "../lib/api";
-import Cookies from "js-cookie";
+import { fetchDashboard } from "../services/dashboardService";
+import { addExpense, updateExpense, deleteExpenses } from "../services/expenseService";
+import { getEmailFromToken } from "../lib/auth";
 import { expenseCategories, incomeCategories } from "../lib/categories";
 
 const ExpenseModal = ({ type, isOpen, onClose, expenses, onSuccess }) => {
@@ -71,9 +72,9 @@ const ExpenseModal = ({ type, isOpen, onClose, expenses, onSuccess }) => {
     });
 
   const refreshAndReturn = async () => {
-    const email = Cookies.get("user_email");
+    const email = getEmailFromToken();
     if (!email) return;
-    const res = await api.get("/dashboard", { params: { email } });
+    const res = await fetchDashboard({ email });
     onSuccess(res.data.expenses || []);
   };
 
@@ -92,8 +93,8 @@ const ExpenseModal = ({ type, isOpen, onClose, expenses, onSuccess }) => {
       const now = new Date();
       const localTime = getLocalTime(now);
       const localCreatedAt = getLocalTimestamp(now);
-      const email = Cookies.get("user_email");
-      await api.post("/add-expense", {
+      const email = getEmailFromToken();
+      await addExpense({
         email,
         amount: Number(formData.amount),
         type: formData.type,
@@ -136,8 +137,8 @@ const ExpenseModal = ({ type, isOpen, onClose, expenses, onSuccess }) => {
 
     setIsLoading(true);
     try {
-      const email = Cookies.get("user_email");
-      await api.put("/update-expense", {
+      const email = getEmailFromToken();
+      await updateExpense({
         email,
         user_expense_id: Number(formData.user_expense_id),
         amount: Number(formData.amount),
@@ -185,10 +186,8 @@ const ExpenseModal = ({ type, isOpen, onClose, expenses, onSuccess }) => {
     setIsLoading(true);
 
     try {
-      const email = Cookies.get("user_email");
-      await api.delete("/delete-expense", {
-        data: { email, ids },
-      });
+      const email = getEmailFromToken();
+      await deleteExpenses({ email, ids });
 
       await refreshAndReturn();
 

@@ -7,8 +7,7 @@ import { Label } from "../components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Eye, EyeOff, Wallet } from "lucide-react";
 import { useToast } from "../hooks/use-toast";
-import api from "../lib/api";
-import Cookies from "js-cookie";
+import { login } from "../services/authService";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -23,22 +22,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const res = await api.post("/login", { email, password });
-      if (res?.data?.email) {
-        Cookies.set("user_email", res.data.email, {
-          sameSite: "lax",
-          path: "/",
-          expires: 90, // 90 days
-        });
-      } else {
-        // fallback: store the email user typed
-        Cookies.set("user_email", email, {
-          sameSite: "lax",
-          path: "/",
-          expires: 90, // 90 days
-        });
-      }
-
+      const res = await login({ email, password });
       toast({
         title: "Login Successful",
         description: "Welcome back!",

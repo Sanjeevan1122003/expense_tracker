@@ -28,11 +28,11 @@ import {
   Twitter,
   Mail,
 } from "lucide-react";
-import Cookies from "js-cookie";
+import { getToken } from "../lib/auth";
 
 const Welcome = () => {
   const navigate = useNavigate();
-  const token = Cookies.get("jwt_token");
+  const token = getToken();
 
   if (token) {
     return <Navigate to="/dashboard" />;

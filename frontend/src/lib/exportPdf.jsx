@@ -1,7 +1,7 @@
 // src/lib/exportPdf.js
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import api from "./api";
+import { fetchDashboard } from "../services/dashboardService";
 
 // ❌ DO NOT register manually (this causes the error)
 // autoTable(jsPDF);
@@ -51,7 +51,7 @@ export default async function exportPdf({ email, period = "all", range = {} }) {
     }
 
     // Fetch filtered data
-    const res = await api.get("/dashboard", { params });
+    const res = await fetchDashboard(params);
 
     const payload = res.data || {};
     const expenses = Array.isArray(payload.expenses) ? payload.expenses : [];

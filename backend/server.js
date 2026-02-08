@@ -12,11 +12,9 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// === CORS: allow your frontend at http://localhost:3000 and allow credentials ===
 app.use(
     cors({
-        // origin: "http://localhost:5173",
-        origin: "https://expensetracker.sanjeevantech.com",
+        origin: process.env.FRONTEND_URL,
         credentials: true,
     })
 );
@@ -27,7 +25,7 @@ app.use(cookieParser());
 function authenticateToken(req, res, next) {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
-    const cookieToken = req.cookies?.jwt_token;
+    const cookieToken = req.cookies?.etk;
     const finalToken = token || cookieToken;
 
     if (!finalToken)
@@ -97,16 +95,13 @@ app.post("/login", async (req, res) => {
             { expiresIn: "90d" }
         );
 
-        // Set cookie (httpOnly) so browser sends it automatically on subsequent requests
-        res.cookie("jwt_token", jwt_token, {
-            httpOnly: true,
-            secure: false, // change to true in production with HTTPS
-            sameSite: "lax",
-            maxAge: 90 * 24 * 60 * 60 * 1000, // 90 days
+        // Return token so frontend can store it
+        res.status(200).json({
+            message: "Login successful",
+            token: jwt_token,
+            email: user.email,
+            username: user.username,
         });
-
-        // Also return minimal user info (no token in body needed, but keeping message)
-        res.status(200).json({ message: "Login successful", email: user.email, username: user.username });
     } catch (err) {
         console.error("❌ Login Error:", err);
         res.status(500).json({ message: "Internal server error", error: err.message });
@@ -115,8 +110,8 @@ app.post("/login", async (req, res) => {
 
 // ========================== LOGOUT ==========================
 app.post("/logout", (req, res) => {
-    // Clear the cookie
-    res.clearCookie("jwt_token", { httpOnly: true, sameSite: "lax", secure: false });
+    // Clear the cookie (in case a token cookie exists)
+    res.clearCookie("etk", { httpOnly: true, sameSite: "lax", secure: false });
     return res.json({ message: "Logged out" });
 });
 

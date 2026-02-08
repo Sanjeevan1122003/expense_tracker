@@ -7,7 +7,7 @@ import { Label } from "../components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Eye, EyeOff, Wallet } from "lucide-react";
 import { useToast } from "../hooks/use-toast";
-import api from "../lib/api";
+import { registerUser } from "../services/authService";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -23,7 +23,15 @@ const Register = () => {
     setIsLoading(true);
 
     try {
-      await api.post("/register", { username, email, password });
+      const res = await registerUser({ username, email, password });
+      if (res?.data?.message === "User already exists. Please login.") {
+        toast({
+          title: "Registration Failed",
+          description: res?.data?.message,
+          className: "bg-red-600 text-white",
+        });
+        navigate("/login");
+      }
       toast({
         title: "Registration Successful",
         description: "Your account has been created!",

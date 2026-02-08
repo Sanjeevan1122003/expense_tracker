@@ -16,8 +16,9 @@ import ExpenseTable from "../components/ExpenseTable";
 import ExpenseCharts from "../components/ExpenseCharts";
 import ExpenseModal from "../components/ExpenseModal";
 import { Card } from "../components/ui/card";
-import api from "../lib/api";
-import Cookies from "js-cookie";
+import { fetchDashboard } from "../services/dashboardService";
+import { logout } from "../services/authService";
+import { clearAuth, getEmailFromToken } from "../lib/auth";
 import exportPdf from "../lib/exportPdf";
 
 const Dashboard = () => {
@@ -35,11 +36,11 @@ const Dashboard = () => {
   const [range, setRange] = useState({ start: "", end: "" });
   const [appliedRange, setAppliedRange] = useState({ start: "", end: "" });
 
-  const email = Cookies.get("user_email");
+  const email = getEmailFromToken();
 
   // Alerts
-  const clearAuth = () => {
-    Cookies.remove("user_email");
+  const clearAuthState = () => {
+    clearAuth();
   };
 
   // 🔥 FETCH EXPENSES WITH FILTERS
@@ -83,9 +84,7 @@ const Dashboard = () => {
         }
       }
 
-      const res = await api.get("/dashboard", {
-        params: { email, ...params },
-      });
+      const res = await fetchDashboard({ email, ...params });
 
       setExpenses(res.data?.expenses || []);
       setUsername(res.data?.username || "");
@@ -99,7 +98,7 @@ const Dashboard = () => {
       });
 
       if ([401, 403].includes(err?.response?.status)) {
-        clearAuth();
+        clearAuthState();
         navigate("/login");
       }
 
@@ -129,7 +128,7 @@ const Dashboard = () => {
   };
   useEffect(() => {
     if (!email) {
-      clearAuth();
+      clearAuthState();
       navigate("/login");
       return;
     }
@@ -168,10 +167,8 @@ const Dashboard = () => {
   // Logout
   const handleLogout = async () => {
     try {
-      await api.post("/logout");
+      await logout();
     } catch { }
-    Cookies.remove("jwt_token",);
-    Cookies.remove("user_email")
 
     toast({
       title: "Logged out successfully",
